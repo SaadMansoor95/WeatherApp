@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using WeatherApp.Model;
 
 namespace WeatherApp.View
 {
@@ -9,10 +10,35 @@ namespace WeatherApp.View
         public string Query
         {
             get { return query; }
-            set 
-            { 
-                query = value; 
-                OnPropertyChange(query); 
+            set
+            {
+                query = value;
+                OnPropertyChange(nameof(Query));
+                //OnPropertyChange("Query");
+            }
+        }
+
+        private CurrentConditions currentConditions;
+
+        public CurrentConditions CurrentCondition
+        {
+            get { return currentConditions; }
+            set
+            {
+                currentConditions = value;
+                OnPropertyChange(nameof(CurrentConditions));
+            }
+        }
+
+        private City selectedCity;
+
+        public City SelectedCity
+        {
+            get { return selectedCity; }
+            set
+            {
+                selectedCity = value;
+                OnPropertyChange(nameof(SelectedCity));
             }
         }
 

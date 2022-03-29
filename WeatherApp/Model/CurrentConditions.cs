@@ -2,7 +2,7 @@
 
 namespace WeatherApp.Model
 {
-    internal class CurrentConditions
+    public class CurrentConditions
     {
         public DateTime LocalObservationDateTime { get; set; }
         public int EpochTime { get; set; }

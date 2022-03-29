@@ -1,6 +1,6 @@
 ﻿namespace WeatherApp.Model
 {
-    internal class City
+    public class City
     {
         public int Version { get; set; }
         public string Key { get; set; }
