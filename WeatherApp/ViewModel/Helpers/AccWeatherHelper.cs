@@ -18,7 +18,7 @@ namespace WeatherApp.ViewModel.Helpers
         {
             var cityList = new List<City>();
 
-            var url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT, API_KEY, query);
+            var url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT, API_KEY, query, "en-us");
 
             using (var httpClient = new HttpClient())
             {

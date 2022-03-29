@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using WeatherApp.Model;
+using WeatherApp.ViewModel.Commands;
 using WeatherApp.ViewModel.Helpers;
 
 namespace WeatherApp.View
@@ -44,6 +45,8 @@ namespace WeatherApp.View
             }
         }
 
+        public SearchCommand _searchCommand{ get; set; }
+
         public WeatherViewModel()
         {
             //This line is to show data in design mode only
@@ -67,6 +70,9 @@ namespace WeatherApp.View
                     }
                 };
             }
+
+            //passing current WeatherViewModel to SearchCommand
+            _searchCommand = new SearchCommand(this);
         }
 
         public async void MakeQuery()
