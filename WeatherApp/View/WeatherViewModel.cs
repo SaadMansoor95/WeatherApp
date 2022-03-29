@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using WeatherApp.Model;
+using WeatherApp.ViewModel.Helpers;
 
 namespace WeatherApp.View
 {
@@ -68,6 +69,10 @@ namespace WeatherApp.View
             }
         }
 
+        public async void MakeQuery()
+        {
+            var cities = await AccWeatherHelper.GetCities(query);
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
