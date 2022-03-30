@@ -90,15 +90,18 @@ namespace WeatherApp.View
                 Cities.Add(item);
         }
 
+
         private async void GetCurrentCondition()
         {
-            Query = string.Empty;
 
-            if (Cities != null && Cities.Count > 0)
-                Cities.Clear();
+            //Query = string.Empty;
 
-            if (selectedCity != null)
-                CurrentCondition = await AccWeatherHelper.GetConditions(selectedCity.Key);
+            //if (Cities != null && Cities.Count > 0)
+            //Cities.Clear();
+
+            //if (selectedCity != null)
+            CurrentCondition = await AccWeatherHelper.GetConditions(selectedCity.Key);
+
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
