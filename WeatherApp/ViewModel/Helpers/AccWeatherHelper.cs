@@ -24,8 +24,9 @@ namespace WeatherApp.ViewModel.Helpers
             {
                 var response = await httpClient.GetAsync(url);
                 var json = await response.Content.ReadAsStringAsync();
-
-                cityList = JsonConvert.DeserializeObject<List<City>>(json);
+                
+                if (response.IsSuccessStatusCode)
+                    cityList = JsonConvert.DeserializeObject<List<City>>(json);
             }
 
             return cityList;
@@ -42,7 +43,8 @@ namespace WeatherApp.ViewModel.Helpers
                 var response = await httpClient.GetAsync(url);
                 var json = await response.Content.ReadAsStringAsync();
 
-                conditions = (JsonConvert.DeserializeObject<List<CurrentConditions>>(json)).FirstOrDefault();
+                if (response.IsSuccessStatusCode)
+                    conditions = (JsonConvert.DeserializeObject<List<CurrentConditions>>(json)).FirstOrDefault();
             }
 
             return conditions;
