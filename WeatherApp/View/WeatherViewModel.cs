@@ -17,20 +17,21 @@ namespace WeatherApp.View
             set
             {
                 query = value;
-                OnPropertyChange(nameof(Query));
-                //OnPropertyChange("Query");
+                OnPropertyChanged(nameof(Query));
             }
         }
 
-        private CurrentConditions currentConditions;
+        public ObservableCollection<City> Cities { get; set; }
 
-        public CurrentConditions CurrentCondition
+        private CurrentConditions currrentConditions;
+
+        public CurrentConditions CurrrentConditions
         {
-            get { return currentConditions; }
+            get { return currrentConditions; }
             set
             {
-                currentConditions = value;
-                OnPropertyChange(nameof(CurrentConditions));
+                currrentConditions = value;
+                OnPropertyChanged(nameof(CurrrentConditions));
             }
         }
 
@@ -42,71 +43,61 @@ namespace WeatherApp.View
             set
             {
                 selectedCity = value;
-                OnPropertyChange(nameof(SelectedCity));
-                GetCurrentCondition();
+                OnPropertyChanged(nameof(SelectedCity));
+                GetCurrentConditions();
             }
         }
 
-        public ObservableCollection<City> Cities { get; set; }
-
-        public SearchCommand _searchCommand { get; set; }
+        public SearchCommand SearchCommand { get; set; }
 
         public WeatherViewModel()
         {
-            //This line is to show data in design mode only
-            //data will not be displayed when in running mode
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            /*
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
                 SelectedCity = new City
                 {
-                    LocalizedName = "New York",
+                    LocalizedName = "New York"
                 };
-
-                CurrentCondition = new CurrentConditions
+                CurrrentConditions = new CurrentConditions
                 {
-                    WeatherText = "Partly Cloudy",
+                    WeatherText = "Partly cloudy",
+                    HasPrecipitation = true,
                     Temperature = new Temperature
                     {
                         Metric = new Units
                         {
-                            Value = "17"
+                            Value = "21"
                         }
                     }
                 };
             }
-
-            //passing current WeatherViewModel to SearchCommand
-            _searchCommand = new SearchCommand(this);
+            */
+            SearchCommand = new SearchCommand(this);
             Cities = new ObservableCollection<City>();
+        }
+
+        private async void GetCurrentConditions()
+        {
+            Query = string.Empty;
+            Cities.Clear();
+
+            CurrrentConditions = await AccWeatherHelper.GetConditions(SelectedCity.Key);
         }
 
         public async void MakeQuery()
         {
-            var cities = await AccWeatherHelper.GetCities(query);
+            var cities = await AccWeatherHelper.GetCities(Query);
 
             Cities.Clear();
 
-            foreach (var item in cities)
-                Cities.Add(item);
+            foreach (var city in cities)
+                Cities.Add(city);
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private async void GetCurrentCondition()
-        {
-
-            //Query = string.Empty;
-
-            //if (Cities != null && Cities.Count > 0)
-            //Cities.Clear();
-
-            //if (selectedCity != null)
-            CurrentCondition = await AccWeatherHelper.GetConditions(selectedCity.Key);
-
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void OnPropertyChange(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

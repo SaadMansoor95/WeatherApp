@@ -23,7 +23,7 @@
                 Mode=TwoWay,
                 UpdateSourceTrigger=PropertyChanged}"/>
             <Button Margin="0,10"
-                    Command="{Binding _searchCommand}"
+                    Command="{Binding SearchCommand}"
                     CommandParameter="{Binding Query}"
                     Content="Search"/>
             <ListView ItemsSource="{Binding Cities}"
@@ -39,7 +39,7 @@
         </StackPanel>
         <Grid  Grid.Row="1" 
                Background="#4392f1"
-               DataContext="{Binding CurrentCondition}">
+               DataContext="{Binding CurrrentConditions}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
