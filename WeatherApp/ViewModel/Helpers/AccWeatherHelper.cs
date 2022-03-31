@@ -14,38 +14,34 @@ namespace WeatherApp.ViewModel.Helpers
         private const string CURRENTCONDITION_ENDPOINT = "currentconditions/v1/{0}?apikey={1}";
         private const string API_KEY = "sVj5EAYAsXeZZhZNuldObDTGjRuQ3GF5";
 
-        public static async Task<List<City>> GetCities(string query)
+        public static async Task<List<City>?> GetCities(string query)
         {
             var cityList = new List<City>();
 
             var url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT, API_KEY, query, "en-us");
 
-            using (var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetAsync(url);
-                var json = await response.Content.ReadAsStringAsync();
-                
-                if (response.IsSuccessStatusCode)
-                    cityList = JsonConvert.DeserializeObject<List<City>>(json);
-            }
+            using var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+                cityList = JsonConvert.DeserializeObject<List<City>>(json);
 
             return cityList;
         }
 
-        public static async Task<CurrentConditions> GetConditions(string cityKey)
+        public static async Task<CurrentConditions?> GetConditions(string cityKey)
         {
             var conditions = new CurrentConditions();
 
             var url = BASE_URL + string.Format(CURRENTCONDITION_ENDPOINT, cityKey, API_KEY);
 
-            using (var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetAsync(url);
-                var json = await response.Content.ReadAsStringAsync();
+            using var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                    conditions = (JsonConvert.DeserializeObject<List<CurrentConditions>>(json)).FirstOrDefault();
-            }
+            if (response.IsSuccessStatusCode)
+                conditions = (JsonConvert.DeserializeObject<List<CurrentConditions>>(json)!).FirstOrDefault();
 
             return conditions;
         }

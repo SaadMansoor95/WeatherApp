@@ -8,22 +8,12 @@ namespace WeatherApp.ViewModel.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool isRaining = (bool)value;
-
-            if (isRaining)
-                return "Currently Raining";
-
-            return "Not currently Raining";
+            return (bool) value ? "Currently Raining" : "Not currently Raining";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string isRaining = value as string;
-
-            if (isRaining.Equals("Currently Raining"))
-                return true;
-
-            return false;
+            return value is string isRaining && isRaining.Equals("Currently Raining");
         }
     }
 }

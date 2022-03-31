@@ -6,35 +6,32 @@ namespace WeatherApp.ViewModel.Commands
 {
     public class SearchCommand : ICommand
     {
-        public WeatherViewModel _weatherViewModel { get; set; }
+        public WeatherViewModel WeatherViewModel { get; set; }
 
         //This event will fire on query change.
         public event EventHandler? CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         public SearchCommand(WeatherViewModel weatherViewModel)
         {
-            _weatherViewModel = weatherViewModel;
+            WeatherViewModel = weatherViewModel;
         }
 
         public bool CanExecute(object? parameter)
         {
-            //Everytime query parameter changes it fires
+            //Every time query parameter changes it fires
             //OnPropertyChange(nameof(Query)) which in turn fire CanExecute
-            string query = parameter as string;
+            var query = parameter as string;
 
-            if (string.IsNullOrWhiteSpace(query))
-                return false;
-
-            return true;
+            return !string.IsNullOrWhiteSpace(query);
         }
 
         public void Execute(object? parameter)
         {
-            _weatherViewModel.MakeQuery();
+            WeatherViewModel.MakeQuery();
         }
     }
 }

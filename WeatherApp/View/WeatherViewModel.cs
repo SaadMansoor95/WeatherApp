@@ -9,40 +9,40 @@ namespace WeatherApp.View
 {
     public class WeatherViewModel : INotifyPropertyChanged
     {
-        private string query;
+        private string _query;
 
         public string Query
         {
-            get { return query; }
+            get => _query;
             set
             {
-                query = value;
+                _query = value;
                 OnPropertyChanged(nameof(Query));
             }
         }
 
         public ObservableCollection<City> Cities { get; set; }
 
-        private CurrentConditions currrentConditions;
+        private CurrentConditions? _currrentConditions;
 
-        public CurrentConditions CurrrentConditions
+        public CurrentConditions? CurrrentConditions
         {
-            get { return currrentConditions; }
+            get => _currrentConditions;
             set
             {
-                currrentConditions = value;
+                _currrentConditions = value;
                 OnPropertyChanged(nameof(CurrrentConditions));
             }
         }
 
-        private City selectedCity;
+        private City _selectedCity;
 
         public City SelectedCity
         {
-            get { return selectedCity; }
+            get => _selectedCity;
             set
             {
-                selectedCity = value;
+                _selectedCity = value;
                 OnPropertyChanged(nameof(SelectedCity));
                 GetCurrentConditions();
             }
@@ -91,11 +91,12 @@ namespace WeatherApp.View
 
             Cities.Clear();
 
+            if (cities == null) return;
             foreach (var city in cities)
                 Cities.Add(city);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {
